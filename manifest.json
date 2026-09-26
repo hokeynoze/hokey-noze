@@ -1,0 +1,1 @@
+{"name": "Hokejové nože", "short_name": "Nože", "start_url": ".", "scope": ".", "display": "standalone", "background_color": "#f4f7fb", "theme_color": "#0b2a5b", "icons": [{"src": "icon.svg", "sizes": "256x256", "type": "image/svg+xml", "purpose": "any maskable"}]}

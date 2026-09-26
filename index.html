@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b2a5b"><title>Hokejové nože</title>
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="login" class="login">
+  <div class="loginCard">
+    <img src="icon.svg" alt=""><h1>Hokejové nože</h1>
+    <p>Spoločná evidencia skladu</p>
+    <input id="email" type="email" placeholder="E-mail">
+    <input id="password" type="password" placeholder="Heslo">
+    <button id="loginBtn" class="primary">Prihlásiť</button>
+    <button id="signupBtn" class="secondary">Vytvoriť účet</button>
+    <div id="loginMsg"></div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+<header class="topbar">
+ <div class="brand"><img src="icon.svg" alt=""><div><h1>Hokejové nože</h1><p>Online evidencia skladu · <span id="userEmail"></span></p></div></div>
+ <div class="actions"><button id="installBtn" class="installBtn hidden">📱 Nainštalovať aplikáciu</button><button id="refreshBtn">↻ Obnoviť</button><button id="logoutBtn">Odhlásiť</button></div>
+</header>
+
+<section class="stats">
+<div><span>Na sklade</span><b id="countAktualne">0</b></div><div><span>Na ceste</span><b id="countCesta">0</b></div><div><span>Predané</span><b id="countPredane">0</b></div>
+<div><span>Hodnota nákupu</span><b id="sumNakup">0 €</b></div><div><span>Predaj</span><b id="sumPredaj">0 €</b></div><div><span>Zisk</span><b id="sumProfit">0 €</b></div>
+</section>
+
+<section class="panel addPanel">
+<div class="panelHead"><div><h2>➕ Pridať nový nôž</h2><p>Kód sa vytvorí automaticky.</p></div><button id="clearBtn" class="secondary">Vyčistiť</button></div>
+<div class="quickGrid">
+<label>Značka<select id="znacka"><option>Bauer</option><option>CCM</option><option>True</option><option>Ramonedge</option><option>Iné</option></select></label>
+<label>Typ noža<select id="typ"></select></label>
+<label id="customModelWrap" class="hidden">Vlastný typ<input id="customModel" placeholder="Zadaj vlastný typ noža"></label>
+<label>Veľkosť<select id="velkost"></select></label><label>Výška<select id="vyska"></select></label>
+<label>Nákupná cena<input id="nakup" type="number" min="0" step="1" placeholder="0 €"></label>
+<label>Predajná cena<input id="predaj" type="number" min="0" step="1" placeholder="0 €"></label>
+</div>
+<div class="advancedRow"><label>MOC<input id="moc" type="number" min="0" step="1" placeholder="0 €"></label>
+<label>Poznámka<input id="poznamka" placeholder="stav, brúsenie, poškodenie..."></label>
+<label>Stav<select id="stav"><option>Aktuálne</option><option>Na ceste</option><option>Predané</option></select></label></div>
+<div class="addActions"><button class="primary" id="addBtn">＋ Pridať nôž</button></div>
+</section>
+
+<section class="panel">
+<div class="toolbar"><div class="tabs">
+<button class="tab active" data-filter="Všetko">Všetko <small id="tabAll">0</small></button>
+<button class="tab" data-filter="Aktuálne">Na sklade <small id="tabStock">0</small></button>
+<button class="tab" data-filter="Na ceste">Na ceste <small id="tabRoad">0</small></button>
+<button class="tab" data-filter="Predané">Predané <small id="tabSold">0</small></button>
+</div><div class="filters"><input id="search" class="search" placeholder="🔎 Kód, značka, model..."><select id="brandFilter"><option>Všetky značky</option><option>Bauer</option><option>CCM</option><option>True</option><option>Ramonedge</option><option>Iné</option></select></div></div>
+<div class="tableWrap"><table><thead><tr><th>Kód</th><th>Nôž</th><th>Veľkosť</th><th>Výška</th><th>Stav</th><th>Nákup</th><th>Predaj</th><th>Zisk</th><th>MOC</th><th>Poznámka</th><th>Odoslanie</th><th></th></tr></thead><tbody id="tbody"></tbody></table><div id="empty" class="empty">Zatiaľ nemáš zaevidované žiadne nože.</div></div>
+</section>
+</div>
+
+<div id="shipModal" class="modal hidden">
+  <div class="modalCard">
+    <div class="modalHead">
+      <div><h2>📦 Odoslanie noža</h2><p id="shipKnife"></p></div>
+      <button id="shipClose" class="secondary">✕</button>
+    </div>
+    <div class="carrierChoices">
+      <button class="carrierBtn packeta" data-carrier="Packeta"><span class="carrierLogo">P</span><span><b>Packeta</b><small>Výdajné miesto / Z-BOX</small></span></button>
+      <button class="carrierBtn posta" data-carrier="Slovenská pošta"><span class="carrierLogo">✉</span><span><b>Slovenská pošta</b><small>Balík / BalíkoBOX</small></span></button>
+    </div>
+    <div class="shipGrid">
+      <label>Meno a priezvisko<input id="shipName"></label>
+      <label>Telefón<input id="shipPhone" type="tel"></label>
+      <label>E-mail<input id="shipEmail" type="email"></label>
+      <label>Adresa / výdajné miesto<input id="shipAddress"></label>
+      <label>Dobierka (€)<input id="shipCod" type="number" min="0" step="0.01"></label>
+      <label>Číslo zásielky<input id="shipTracking" placeholder="doplním po odoslaní"></label>
+      <label>Stav zásielky<select id="shipStatus"><option>Pripravené</option><option>Odoslané</option><option>Doručené</option><option>Zrušené</option></select></label>
+      <label>Dátum odoslania<input id="shipDate" type="date"></label>
+    </div>
+    <div class="shipActions"><button id="shipSave" class="primary">💾 Uložiť odoslanie</button></div>
+    <div id="shipResult" class="shipResult"></div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* DOPLŇ po vytvorení Supabase projektu */
+window.SUPABASE_URL = "";
+window.SUPABASE_KEY = "";
+</script>
+<script src="app.js"></script>
+</body></html>
